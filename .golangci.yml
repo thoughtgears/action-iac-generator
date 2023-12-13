@@ -1,0 +1,32 @@
+# .golangci.yml
+linters-settings:
+  govet:
+    check-shadowing: true
+  gocyclo:
+    min-complexity: 15
+
+linters:
+  enable:
+    - govet
+    - revive
+    - gocyclo
+    - gofmt
+    - goimports
+  disable:
+    - errcheck
+
+issues:
+  exclude-use-default: false
+  exclude-rules:
+    - linters: ['gocyclo']
+      text: "cyclomatic complexity 16 of function"
+    - linters: ['revive']
+      text: "package-comments: should have a package comment"
+
+run:
+  concurrency: 4
+  deadline: 1m
+  build-tags:
+    - integration
+  skip-dirs:
+    - vendor

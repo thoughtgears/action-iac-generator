@@ -15,6 +15,11 @@ tasks:
       INPUT_FILE_NAME: ./examples/infrastructure.yaml
       INPUT_ENVIRONMENT: dev
 
+  lint:
+    desc: "Run linter"
+    cmds:
+      - golangci-lint run
+
   docker:build:
     desc: "Build docker image"
     cmds:

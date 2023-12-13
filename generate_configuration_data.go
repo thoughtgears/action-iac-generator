@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/kelseyhightower/envconfig"
 	"gopkg.in/yaml.v3"
-	"os"
 )
 
 // InputData is the struct that contains the data that will be read from the infrastructure
