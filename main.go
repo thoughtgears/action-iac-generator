@@ -33,8 +33,4 @@ func main() {
 			log.Fatal().Err(err).Msg("failed to generate dynamic terraform files")
 		}
 	}
-
-	if err := terraformFmt(); err != nil {
-		log.Fatal().Err(err).Msg("failed to run terraform fmt")
-	}
 }

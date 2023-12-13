@@ -1,0 +1,6 @@
+.idea
+examples
+infrastructure
+Dockerfile
+Taskfile.yml
+README.md

@@ -14,3 +14,18 @@ tasks:
     env:
       INPUT_FILE_NAME: ./examples/infrastructure.yaml
       INPUT_ENVIRONMENT: dev
+
+  docker:build:
+    desc: "Build docker image"
+    cmds:
+      - docker build -t action-iac-generator .
+
+  docker:run:
+    desc: "Run docker image"
+    cmds:
+      - | 
+        docker run \
+        -it -v ./examples:/examples \
+        -e INPUT_FILE_NAME=./examples/infrastructure.yaml \
+        -e INPUT_ENVIRONMENT=dev \
+        action-iac-generator
