@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/rs/zerolog"
 	"os"
 	"time"
@@ -25,5 +24,7 @@ func main() {
 		log.Fatal().Err(err).Msg("failed to get config")
 	}
 
-	fmt.Println(config)
+	if err := generateBaseFiles(config); err != nil {
+		log.Fatal().Err(err).Msg("failed to generate base terraform files")
+	}
 }

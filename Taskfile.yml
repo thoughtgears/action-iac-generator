@@ -13,3 +13,4 @@ tasks:
       - go run *.go
     env:
       INPUT_FILE_NAME: ./examples/infrastructure.yaml
+      INPUT_ENVIRONMENT: dev
