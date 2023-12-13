@@ -1,6 +1,8 @@
 terraform {
+    required_version = "~> {{ .TerraformVersion }}"
+
     backend "gcs" {
         bucket = "{{ .StateBucket }}"
-        prefix = "{{ .StateBucketPrefix }}"
+        prefix  = "{{ .StateBucketPrefix }}"
     }
 }

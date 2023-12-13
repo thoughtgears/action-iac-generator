@@ -1,0 +1,4 @@
+resource "google_pubsub_topic" "example" {
+  project = "{{ .ProjectID }}"
+  name    = "{{ .Name }}"
+}

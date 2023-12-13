@@ -7,7 +7,10 @@ import (
 	"text/template"
 )
 
-// generateBaseFiles generates the base terraform files. These files are the same for all services.
+// generateBaseFiles generates the base terraform files.
+// It will generate base files that are the same for all services.
+// It will read the templates from the templates directory and generate the files in the infrastructure
+// directory. The infrastructure directory will be created if it does not exist.
 // The base files are:
 // - main.tf
 // - provider.tf
@@ -46,6 +49,8 @@ func generateBaseFiles(config Config) error {
 	}); err != nil {
 		return err
 	}
+
+	log.Info().Msg("base terraform files generated successfully")
 
 	return nil
 }

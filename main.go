@@ -15,7 +15,7 @@ func init() {
 		zerolog.ConsoleWriter{
 			Out:        os.Stdout,
 			TimeFormat: time.RFC3339,
-		}).Level(zerolog.InfoLevel).With().Timestamp().Caller().Logger()
+		}).Level(zerolog.InfoLevel).With().Timestamp().Logger()
 }
 
 func main() {
@@ -26,5 +26,15 @@ func main() {
 
 	if err := generateBaseFiles(config); err != nil {
 		log.Fatal().Err(err).Msg("failed to generate base terraform files")
+	}
+
+	if config.Data.Modules != nil {
+		if err := generateDynamicFiles(config); err != nil {
+			log.Fatal().Err(err).Msg("failed to generate dynamic terraform files")
+		}
+	}
+
+	if err := terraformFmt(); err != nil {
+		log.Fatal().Err(err).Msg("failed to run terraform fmt")
 	}
 }

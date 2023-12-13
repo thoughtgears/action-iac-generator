@@ -1,3 +1,5 @@
 name: service-x
 project_id: project-y-1234
 region: europe-west2
+modules:
+  - name: pubsub
