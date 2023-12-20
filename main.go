@@ -31,8 +31,15 @@ func main() {
 
 	if len(config.Data.Modules) > 0 {
 		for _, module := range config.Data.Modules {
-			if err := module.PubSub.generateTerraform(config.Data.ProjectID); err != nil {
-				log.Fatal().Err(err).Msg("failed to generate pubsub terraform files")
+			switch module.Type {
+			case "pubsub":
+				if err := module.generatePubSubTerraform(config.Data.ProjectID); err != nil {
+					log.Fatal().Err(err).Msg("failed to generate pubsub terraform files")
+				}
+			case "cloud-run":
+				if err := module.generateCloudRunTerraform(config.Data.ProjectID, config.Data.Region); err != nil {
+					log.Fatal().Err(err).Msg("failed to generate cloud run terraform files")
+				}
 			}
 		}
 	}

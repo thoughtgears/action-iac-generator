@@ -7,22 +7,20 @@ import (
 	"text/template"
 )
 
-// PubSub is the struct that contains the data for the pub/sub module.
-type PubSub struct {
-	TopicName string `yaml:"topic_name"`
-}
-
-func (p *PubSub) generateTerraform(projectID string) error {
+func (m *Module) generatePubSubTerraform(projectID string) error {
 	path := "templates/modules/pubsub.tmpl"
 	outputDir := "infrastructure"
-	outputFilename := fmt.Sprintf("%s_pubsub.tf", sanitiseOutputFile(p.TopicName))
+	resourceName := sanitiseOutputFile(m.ResourceName)
+	outputFilename := fmt.Sprintf("%s_pubsub.tf", resourceName)
 
 	data := struct {
-		ProjectID string
-		TopicName string
+		ProjectID    string
+		ResourceName string
+		TopicName    string
 	}{
-		ProjectID: projectID,
-		TopicName: p.TopicName,
+		ProjectID:    projectID,
+		ResourceName: resourceName,
+		TopicName:    m.ResourceName,
 	}
 
 	tmpl, err := template.ParseFiles(path)

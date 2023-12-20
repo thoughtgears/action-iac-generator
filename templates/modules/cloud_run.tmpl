@@ -1,0 +1,17 @@
+resource "google_cloud_run_v2_service" "{{ .ResourceName }}" {
+  name     = "{{ .ServiceName }}"
+  location = "{{ .Location }}"
+  ingress = "INGRESS_TRAFFIC_ALL"
+
+  template {
+    containers {
+      image = "{{ .Image }}"
+      resources {
+        limits = {
+          cpu    = "{{ .CPU }}"
+          memory = "{{ .Memory }}"
+        }
+      }
+    }
+  }
+}

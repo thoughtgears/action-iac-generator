@@ -1,4 +1,4 @@
-resource "google_pubsub_topic" "{{ .TopicName }}" {
+resource "google_pubsub_topic" "{{ .ResourceName }}" {
   project = "{{ .ProjectID }}"
   name    = "{{ .TopicName }}"
 }

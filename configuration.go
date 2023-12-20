@@ -12,23 +12,20 @@ import (
 // The input data will also contain unexported field that will be used to store interpolated
 // data based on the input data.
 type InputData struct {
-	Name      string `yaml:"name"`       // Name of the service (e.g. "my-service")
-	ProjectID string `yaml:"project_id"` // ProjectID for the service (e.g. "my-project")
-	Region    string `yaml:"region"`     // Region for the service (e.g. "us-central1")
-	Modules   []*struct {
-		PubSub   *PubSub   `yaml:"pubsub,omitempty"`
-		CloudRun *CloudRun `yaml:"cloud_run,omitempty"`
-	} `yaml:"modules,omitempty"` // Modules for the service (e.g. "pubsub")
+	Name      string    `yaml:"name"`              // Name of the service (e.g. "my-service")
+	ProjectID string    `yaml:"project_id"`        // ProjectID for the service (e.g. "my-project")
+	Region    string    `yaml:"region"`            // Region for the service (e.g. "us-central1")
+	Modules   []*Module `yaml:"modules,omitempty"` // Modules for the service (e.g. "pubsub")
 }
 
 // Module is the struct that contains the data for the modules that will be used to generate
 // the terraform files from the templates. The modules will be used to generate dynamic files
 // that are specific to the service.
-// TODO: Modules should get data from the generate structs specific to the module.
-//type Module struct {
-//	Module string `yaml:"module"` // Name of the module (e.g. "pubsub")
-//	Name   string `yaml:"name"`   // Name of resource, both from a resource and naming convention perspective (e.g. "topic-x")
-//}
+type Module struct {
+	Type           string          `yaml:"type"`          // Type of module (e.g. "pubsub")
+	ResourceName   string          `yaml:"resource_name"` // Name of resource, both from a resource and naming convention perspective (e.g. "topic-x")
+	CloudRunModule *CloudRunModule `yaml:"cloud_run,omitempty"`
+}
 
 // Config is the struct that contains the data that will be read from the environment variables
 // and the infrastructure yaml file.
