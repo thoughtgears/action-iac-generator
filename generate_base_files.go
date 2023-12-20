@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -17,37 +18,47 @@ import (
 func generateBaseFiles(config Config) error {
 	templateDir := "templates"
 	outputDir := "infrastructure"
+	data := struct {
+		TerraformVersion  string // Version of terraform to use
+		Env               string // Environment for the service (e.g. "dev")
+		StateBucket       string // Bucket name for the terraform state
+		StateBucketPrefix string // Bucket prefix for the terraform state, generated from inputData
+	}{
+		TerraformVersion:  "1.5.3",
+		Env:               config.Environment,
+		StateBucket:       config.StateBucket,
+		StateBucketPrefix: fmt.Sprintf("%s/%s/%s", config.Data.ProjectID, config.Data.Name, config.Environment),
+	}
 
 	if err := os.MkdirAll(outputDir, os.ModePerm); err != nil {
 		return err
 	}
 
-	if err := filepath.Walk(templateDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
+	files, err := os.ReadDir(templateDir)
+	if err != nil {
+		return err
+	}
 
-		if !info.IsDir() && filepath.Ext(path) == ".tmpl" {
+	for _, file := range files {
+		path := filepath.Join(templateDir, file.Name())
+
+		if filepath.Ext(path) == ".tmpl" {
 			tmpl, err := template.ParseFiles(path)
 			if err != nil {
 				return err
 			}
 
-			outputFilename := strings.TrimSuffix(filepath.Base(path), ".tmpl") + ".tf"
+			outputFilename := strings.TrimSuffix(file.Name(), ".tmpl") + ".tf"
 			outputFilePath := filepath.Join(outputDir, outputFilename)
 			outputFile, err := os.Create(outputFilePath)
 			if err != nil {
 				return err
 			}
 
-			if err := tmpl.Execute(outputFile, config.Data); err != nil {
+			if err := tmpl.Execute(outputFile, data); err != nil {
 				return err
 			}
 		}
-
-		return nil
-	}); err != nil {
-		return err
 	}
 
 	log.Info().Msg("base terraform files generated successfully")

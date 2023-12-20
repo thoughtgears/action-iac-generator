@@ -14,6 +14,7 @@ tasks:
     env:
       INPUT_FILE_NAME: ./examples/infrastructure.yaml
       INPUT_ENVIRONMENT: dev
+      INPUT_STATE_BUCKET: my-state-bucket
 
   lint:
     desc: "Run linter"
@@ -33,4 +34,5 @@ tasks:
         -it -v ./examples:/examples \
         -e INPUT_FILE_NAME=./examples/infrastructure.yaml \
         -e INPUT_ENVIRONMENT=dev \
+        - e INPUT_STATE_BUCKET=my-state-bucket \
         action-iac-generator

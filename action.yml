@@ -1,0 +1,17 @@
+name: "IaC Generator"
+description: "Generates IaC files for a service."
+author: "Jens Skott"
+inputs:
+  file_name:
+    description: "The infrastructure yaml file name and path to generate from"
+    default: "infrastructure.yaml"
+    required: true
+  environment:
+    description: "The environment to generate for"
+    required: true
+  state_bucket:
+    description: "The state bucket to use"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"

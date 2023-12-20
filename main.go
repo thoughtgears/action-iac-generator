@@ -29,9 +29,11 @@ func main() {
 		log.Fatal().Err(err).Msg("failed to generate base terraform files")
 	}
 
-	if config.Data.Modules != nil {
-		if err := generateDynamicFiles(config); err != nil {
-			log.Fatal().Err(err).Msg("failed to generate dynamic terraform files")
+	if len(config.Data.Modules) > 0 {
+		for _, module := range config.Data.Modules {
+			if err := module.PubSub.generateTerraform(config.Data.ProjectID); err != nil {
+				log.Fatal().Err(err).Msg("failed to generate pubsub terraform files")
+			}
 		}
 	}
 }
