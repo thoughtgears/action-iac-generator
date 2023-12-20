@@ -54,5 +54,7 @@ func (m *Module) generateCloudRunTerraform(projectID, region string) error {
 		return err
 	}
 
+	log.Info().Msg("cloud run terraform files generated successfully")
+
 	return nil
 }

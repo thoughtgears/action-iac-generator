@@ -38,5 +38,7 @@ func (m *Module) generatePubSubTerraform(projectID string) error {
 		return err
 	}
 
+	log.Info().Msg("pub/sub terraform files generated successfully")
+
 	return nil
 }
